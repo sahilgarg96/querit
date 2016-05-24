@@ -7,7 +7,24 @@
     <meta charset="UTF-8">
 
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    <style>
 
+.ques {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+}
+
+.ans {
+  height: 40px;
+  width: 75px;
+  color:#500000;
+  text-align: center;
+  text-align: center;
+  vertical-align: middle;
+
+  
+}
+</style>
     
 {% endblock %}
 
@@ -16,8 +33,8 @@
 <div class="col-xs-7 col-xs-offset-1">
 {% for q in query %}
   <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques">3</div>Views</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">3</div>Views</small></div>
   <p>
      <a class="ques" href="{% url 'admquerydetail' id=q.id %}">{{ q.title }}</a>
     <br/>
@@ -31,7 +48,7 @@
 
 {% endfor %}
 <div class='row'>
-<div class='col-md-4 col-md-offset-4'>
+<div class='col-xs-4 col-xs-offset-4'>
 <div class="pagination">
     <span class="step-links">
         {% if query.has_previous %}
