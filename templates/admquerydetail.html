@@ -8,6 +8,16 @@
     <meta charset="UTF-8">
 
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
+
+    <style>
+
+.glyphicon-glyphicon-triangle-top{
+
+font-size: 30px;
+
+}
+
+    </style>
     
 {% endblock %}
 {% block head_extra %}
@@ -17,6 +27,16 @@
 {% endblock %}
 
 {% block body %}
+{% if message %}
+<div class="alert alert-danger" role="alert">{{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+{% endif %}
+
+
+
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
    <h3>{{instance.title}} </h3>  
@@ -25,7 +45,7 @@
    </div>
    </div>
    <div class="row">
-<div class="col-md-7 col-md-offset-1">
+<div class="col-md-6 col-md-offset-1">
   <small class="pull-right">Posted by {{ instance.user}}</small>
   <br><br>
   {{ instance.content|markdown|linebreaks }}
@@ -83,17 +103,37 @@
   <blockquote style="background-color: #fcfac9 ;" >
 
 {% endif %}
+
   <p>{{ i.answer_text|markdown |linebreaks }}</p>
-  <footer>Posted by {{ i.user}} | {{ i.pub_date|timesince}} ago | {% if i.children.count > 0 %} {% if i.children.count <= 1 %} {{i.children.count}} comment |{% endif %} {% if i.children.count > 1 %} {{ i.children.count}} comments |{% endif %} {% endif %}   <a class="comment-reply-btn" href="#">Reply </a></footer>
+  <footer>Posted by {{ i.user}} | {{ i.pub_date|timesince}} ago | {% if i.children.count > 0 %} {% if i.children.count <= 1 %} {{i.children.count}} comment |{% endif %} {% if i.children.count > 1 %} {{ i.children.count}} comments |{% endif %} {% endif %}   <a class="comment-reply-btn" href="#">Reply </a>          <div class="pull-right"> 
+
+
+  {% if user.is_authenticated %}
+      
+        
+          
+          <a data-toggle="tooltip" data-placement="top" title="Vote Up this answer" href="/vote/{{ instance.id }}/{{ i.id }}/0/"><span class=" glyphicon glyphicon-triangle-top" aria-hidden="true"></span></a> 
+          
+
+<b>{{ i.votes }}</b>
+
+          <a  data-toggle="tooltip" data-placement="bottom" title="Vote Down this answer" href="/vote/{{ instance.id }}/{{ i.id }}/1/"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+
+
+      {% else %} 
+
+<p>{{ i.votes }} votes </p>
+
+      {% endif %}  </div></footer>
 
 <div class="answer-reply" style="display: none;">
-  	{% for reply in i.children %}
-		 <blockquote style="background-color: #eee ;" >
-			  <p>{{ reply.answer_text|linebreaks }}</p>
-			  <footer>Posted by {{ reply.user}} | {{ reply.pub_date|timesince}} ago</footer>
-			  </blockquote>
+    {% for reply in i.children %}
+     <blockquote style="background-color: #eee ;" >
+        <p>{{ reply.answer_text|linebreaks }}</p>
+        <footer>Posted by {{ reply.user}} | {{ reply.pub_date|timesince}} ago</footer>
+        </blockquote>
 
-	{% endfor %}		
+  {% endfor %}    
 {% if user.is_authenticated %}
   <form method="POST" action="."> {%  csrf_token %}
   {{ reply_form|crispy }}
@@ -157,6 +197,15 @@ font-size: 14px;"> viewed &nbsp; {{ instance.views }} times </p> -->
                 {% endif %}
                 <a href="{% url 'query' %}" ><span class="glyphicon glyphicon-bullhorn"></span> Ask Question </a>
                 <hr>
+{% if not user.is_authenticated %}
+                <h3 style=" margin: 50px auto;
+  text-align: center;
+  text-shadow: -1px -1px 0px rgba(255,255,255,0.3), 1px 1px 0px rgba(0,0,0,0.8);
+  color: #333;
+  opacity: 0.4;
+  font: 800 40px 'Bitter';">  Make Effort To ASK </h3>
+{% endif %}
+                
                 </div>
 </div>
 </div>

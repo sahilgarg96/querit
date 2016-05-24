@@ -6,6 +6,12 @@ from django.db import models
 from posts.models import *
 
 # Create your models here.
+
+
+
+
+
+
 class AnswerManager(models.Manager):
 	#overriding all method to show parents only
 	def all(self):
@@ -30,6 +36,8 @@ class admission_Answer(models.Model):
 
     parent=models.ForeignKey('self',null=True,blank=True)
 
+    votes = models.IntegerField(default=0)
+
     pub_date = models.DateTimeField('date published')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True)
 
@@ -53,7 +61,12 @@ class admission_Answer(models.Model):
     	else:
     		return True    
 
+class Voteradm(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    answer = models.ForeignKey(admission_Answer)
 
+    def __unicode__(self):
+        return ' %s ------ voted by  %s' %(self.answer,self.user)
 
 
 class placement_Answer(models.Model):

@@ -6,3 +6,4 @@ from .models import *
 
 admin.site.register(admission_Answer)
 admin.site.register(placement_Answer)
+admin.site.register(Voteradm)

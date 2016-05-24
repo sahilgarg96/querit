@@ -216,7 +216,7 @@ def admquerydetail(request,id=None):
 					)
 				return HttpResponseRedirect(new_answer.content_object.get_absolute_url())	
 		
-	answers = admission_Answer.objects.filter_by_instance(instance)	
+	answers = admission_Answer.objects.filter_by_instance(instance).order_by("-votes")	
 	context = {
 	"instance":instance,
 	"answers":answers,
@@ -279,6 +279,124 @@ def admquerydelete(request, id=None):
 		raise Http404('You are not the author of this post') 
 	instance.delete()
 	return redirect('admquerylist')
+
+def voteadm(request, question_id, answer_id,op_code):
+	instance=get_object_or_404( admission,id= question_id)
+	user_ob = request.user
+	answer = admission_Answer.objects.get(pk=answer_id)
+	answers = admission_Answer.objects.filter_by_instance(instance).order_by("-votes")
+	initial_data = {
+			"content_type" : instance.get_content_type,
+			"object_id" : instance.id,
+			}
+	answer_form = AnswerForm(request.POST or None , initial = initial_data )
+	reply_form = ReplyForm(request.POST or None , initial = initial_data)
+	if(request.user.is_authenticated):
+	    # if (request.user != instance.user):
+			
+
+			if answer_form.is_valid():
+				c_type = answer_form.cleaned_data.get('content_type')
+				content_type = ContentType.objects.get(model=c_type)
+				obj_id = answer_form.cleaned_data.get('object_id')
+				content_data = answer_form.cleaned_data.get('answer_text')
+				parent_obj = None
+				try:
+					parent_id = int(request.POST.get("parent_id"))
+				except:
+					parent_id = None
+
+				if parent_id:
+					parent_qs = admission_Answer.objects.filter(id= parent_id)
+					if parent_qs.exists() and parent_qs.count() == 1:
+						parent_obj = parent_qs.first()
+
+
+				new_answer, created = admission_Answer.objects.get_or_create(
+
+					user=request.user,
+					content_type=content_type,
+					object_id=obj_id,
+					answer_text=content_data,
+					pub_date = datetime.datetime.now(),
+					parent = parent_obj
+
+
+
+					)
+				return HttpResponseRedirect(new_answer.content_object.get_absolute_url())
+
+
+			
+			if reply_form.is_valid():
+				c_type = answer_form.cleaned_data.get('content_type')
+				content_type = ContentType.objects.get(model=c_type)
+				obj_id = answer_form.cleaned_data.get('object_id')
+				content_data = answer_form.cleaned_data.get('answer_text')
+				parent_obj = None
+				try:
+					parent_id = int(request.POST.get("parent_id"))
+				except:
+					parent_id = None
+
+				if parent_id:
+					parent_qs = admission_Answer.objects.filter(id= parent_id)
+					if parent_qs.exists() and parent_qs.count() == 1:
+						parent_obj = parent_qs.first()
+
+
+				new_answer, created = admission_Answer.objects.get_or_create(
+
+					user=request.user,
+					content_type=content_type,
+					object_id=obj_id,
+					answer_text=content_data,
+					pub_date = datetime.datetime.now(),
+					parent = parent_obj
+
+
+
+					)
+				return HttpResponseRedirect(new_answer.content_object.get_absolute_url())	
+
+	if admission_Answer.objects.filter(id=answer_id, user=user_ob).exists():
+		return render(request, 'admquerydetail.html', {'instance': instance, 'answers': answers, 	"answer_form":answer_form,
+	"reply_form":reply_form,
+	 'message':"You cannot vote on your answer!"})
+
+	if Voteradm.objects.filter(answer = answer_id, user = user_ob).exists():
+		return render(request, 'admquerydetail.html', {'instance': instance, 'answers': answers, 	"answer_form":answer_form,
+	"reply_form":reply_form,
+	 'message':"You've already cast vote on this answer!"})
+
+	if op_code == '0':
+		answer.votes += 1
+
+	if op_code == '1':
+		answer.votes -= 1
+	answer.save()
+	v = Voteradm()
+	v.user = request.user
+	v.answer = answer
+	v.save()	
+	answers = admission_Answer.objects.filter_by_instance(instance)	
+	context = {
+	"instance":instance,
+	"answers":answers,
+	"answer_form":answer_form,
+	"reply_form":reply_form,
+	
+	
+	}
+ 	return render(request,"admquerydetail.html",context)
+
+
+
+
+
+
+
+
 
 
 

@@ -40,8 +40,8 @@
 {% if query %}
   {% for q in query %}
   <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques">3</div>Views</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers </small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">3</div>Views</small></div>
   <p>
      <a class="ques" href="{% url 'admquerydetail' id=q.id %}">{{ q.title }}</a>
     <br/>
@@ -84,8 +84,8 @@
 {% if queryplc %}
   {% for q in queryplc %}
   <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques">{{ q.views }}</div>Views</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.views }}</div>Views</small></div>
   <p>
      <a class="ques" href="{% url 'plcmntquerydetail' id=q.id %}">{{ q.title }}</a>
     <br/>
@@ -123,16 +123,16 @@
 
 <div role="tabpanel" class="tab-pane" id="soc">
 <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Answers2</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Views2</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers2</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Views2</small></div>
   </div>
 <hr>
   </div>
 
   <div role="tabpanel" class="tab-pane" id="host">
 <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Answers3</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Views3</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers3</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Views3</small></div>
   </div>
 <hr>
   </div>
@@ -140,8 +140,8 @@
 
   <div role="tabpanel" class="tab-pane" id="acad">
 <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Answers4</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Views4</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers4</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Views4</small></div>
   </div>
 <hr>
   </div>
@@ -149,8 +149,8 @@
 
   <div role="tabpanel" class="tab-pane" id="other">
 <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Answers5</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Views5</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers5</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Views5</small></div>
   </div>
 <hr>
   </div>
@@ -158,8 +158,8 @@
 
   <div role="tabpanel" class="tab-pane" id="lat">
 <div class="row">
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Answers6</small></div>
-  <div class="col-sm-1 ans"><small><div class="ques"></div>Views6</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers6</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques"></div>Views6</small></div>
   </div>
 <hr>
   </div>
@@ -181,7 +181,7 @@
 
 
 <div class="col-xs-2 col-xs-offset-1">
-<div class="cont" style="background-color: #FFFACD; height: 400px; text-align: center;">
+<div class="cont" style="background-color: #FFFACD; height: 400px; text-align: center; border-style: solid; border-color: #f1a552;">
 <br>
 <div class="cont" style="background-color: #FFFACD; height: 350px; margin-left: 5%; margin-right: 5%; text-align: center;">
 
@@ -205,6 +205,15 @@
                 {% endif %}
                 <a href="{% url 'query' %}" ><span class="glyphicon glyphicon-bullhorn"></span> Ask Question </a>
                 <hr>
+{% if not user.is_authenticated %}
+                <h3 style=" margin: 50px auto;
+  text-align: center;
+  text-shadow: -1px -1px 0px rgba(255,255,255,0.3), 1px 1px 0px rgba(0,0,0,0.8);
+  color: #333;
+  opacity: 0.4;
+  font: 700 30px 'Bitter';">  Make Effort To ASK </h3>
+{% endif %}
+
  </div>
 </div>
 <br><br>

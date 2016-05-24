@@ -28,11 +28,14 @@ urlpatterns = [
     url(r'^$', 'posts.views.home',name='home'),
     url(r'^about/', 'posts.views.about',name='about'),
     url(r'^query/', 'posts.views.querytype',name='query'),
+
+    
     url(r'^ask_query/admissions/', 'posts.views.admquery',name='admqueryask'),
     url(r'^admissions/queries', 'posts.views.admquerylist',name='admquerylist'),
     url(r'^admissions/querydetail/(?P<id>\d+)/$', 'posts.views.admquerydetail',name='admquerydetail'),
     url(r'^admissions/querydetail/(?P<id>\d+)/edit/$', 'posts.views.admqueryupdate',name='admqueryedit'),
     url(r'^admissions/querydetail/(?P<id>\d+)/delete/$', 'posts.views.admquerydelete',name='admquerydel'),
+    url(r'^vote/(?P<question_id>\d+)/(?P<answer_id>\d+)/(?P<op_code>\d+)/$', 'posts.views.voteadm', name='voteadm'),
 
 
     url(r'^ask_query/placements/', 'posts.views.plcmntquery',name='plcmntqueryask'),

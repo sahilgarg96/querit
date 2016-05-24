@@ -114,7 +114,7 @@ font-size: 14px;"> {% if instance.answers.count > 0 %} {% if instance.answers.co
 
 
 <div class="col-xs-2 col-xs-offset-1">
-<div class="cont" style="background-color: #FFFACD; height: 400px; text-align: center;">
+<div class="cont" style="background-color: #FFFACD; height: 400px; text-align: center; border-style: solid; border-color: #f1a552;">
 <br>
 <div class="cont" style="background-color: #FFFACD; height: 350px; margin-left: 5%; margin-right: 5%; text-align: center;">
 
@@ -138,6 +138,16 @@ font-size: 14px;"> {% if instance.answers.count > 0 %} {% if instance.answers.co
                 {% endif %}
                 <a href="{% url 'query' %}" ><span class="glyphicon glyphicon-bullhorn"></span> Ask Question </a>
                 <hr>
+                {% if not user.is_authenticated %}
+                <h3 style=" margin: 50px auto;
+  text-align: center;
+  text-shadow: -1px -1px 0px rgba(255,255,255,0.3), 1px 1px 0px rgba(0,0,0,0.8);
+  color: #333;
+  opacity: 0.4;
+  font: 800 40px 'Bitter';">  Make Effort To ASK </h3>
+{% endif %}
+
+
                 </div>
 </div>
 </div>
