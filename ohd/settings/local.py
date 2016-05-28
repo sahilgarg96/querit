@@ -160,7 +160,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-SITE_ID = 0
+SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS =      { 'google':
         { 'SCOPE': ['email'],
