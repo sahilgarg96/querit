@@ -118,10 +118,10 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ohdb4',
-        'USER': 'postgres',
-        'PASSWORD': 'sandytaggar',
-        'HOST': 'localhost',
+        'NAME': 'd6cpac5765b8jn',
+        'USER': 'zaaqwtxcrgpuwe',
+        'PASSWORD': 'FyiY8bvzukIski5aiknFTjnCl_',
+        'HOST': 'ec2-50-16-229-45.compute-1.amazonaws.com',
 
         'PORT': '5432',
     }
