@@ -6,6 +6,7 @@
 
 {% block head %}
     <meta charset="UTF-8">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
         <style>
@@ -24,6 +25,9 @@ font-size: 30px;
   
 }
 
+
+
+
     </style>
     
 {% endblock %}
@@ -34,6 +38,10 @@ font-size: 30px;
 {% endblock %}
 
 {% block body %}
+
+
+
+
 <div class="row">
 <div class="col-xs-10 col-xs-offset-1">
    <h3>{{instance.title}} </h3>
@@ -90,13 +98,13 @@ font-size: 30px;
   <footer>Posted by {{ i.user}} | {{ i.pub_date|timesince}} ago | {% if i.children.count > 0 %} {% if i.children.count <= 1 %} {{i.children.count}} comment |{% endif %} {% if i.children.count > 1 %} {{ i.children.count}} comments |{% endif %} {% endif %}   <a class="comment-reply-btn" href="#">Reply </a></footer>
 
 <div class="answer-reply" style="display: none;">
-  	{% for reply in i.children %}
-		 <blockquote style="background-color: #eee ;" >
-			  <p>{{ reply.answer_text|linebreaks }}</p>
-			  <footer>Posted by {{ reply.user}} | {{ reply.pub_date|timesince}} ago</footer>
-			  </blockquote>
+    {% for reply in i.children %}
+     <blockquote style="background-color: #eee ;" >
+        <p>{{ reply.answer_text|linebreaks }}</p>
+        <footer>Posted by {{ reply.user}} | {{ reply.pub_date|timesince}} ago</footer>
+        </blockquote>
 
-	{% endfor %}		
+  {% endfor %}    
 {% if user.is_authenticated %}
   <form method="POST" action="."> {%  csrf_token %}
   {{ reply_form|crispy }}
@@ -171,7 +179,14 @@ font-size: 14px;"> {% if instance.answers.count > 0 %} {% if instance.answers.co
 
 </div>
 
-
+ <div id="search">
+   <button type="button" class="close">×</button>
+   <form method="post" action="{% url 'search' %}">
+     {% csrf_token %}
+     <input type="search" value="" name="word" placeholder="type keyword(s) here" />
+     <input class="btn btn-lg btn-warning" type="submit" value="Find" />
+   </form>
+ </div>
 
 
 {% endblock %}

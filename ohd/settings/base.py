@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    
     # my apps
     'posts',
     'answers',
@@ -51,7 +52,8 @@ INSTALLED_APPS = [
     #third party apps
     'pagedown',
     'django_markdown',
-    
+    'watson',
+
     'markdown_deux',
     'crispy_forms',
     'allauth',
@@ -116,10 +118,10 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd6cpac5765b8jn',
-        'USER': 'zaaqwtxcrgpuwe',
-        'PASSWORD': 'FyiY8bvzukIski5aiknFTjnCl_',
-        'HOST': 'ec2-50-16-229-45.compute-1.amazonaws.com',
+        'NAME': 'ohdb4',
+        'USER': 'postgres',
+        'PASSWORD': 'sandytaggar',
+        'HOST': 'localhost',
 
         'PORT': '5432',
     }
@@ -157,7 +159,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-SITE_ID = 1
+SITE_ID = 0
 
 SOCIALACCOUNT_PROVIDERS =      { 'google':
         { 'SCOPE': ['email'],

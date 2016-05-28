@@ -8,15 +8,63 @@ from django.contrib.contenttypes.models import ContentType
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
+from operator import attrgetter
+from itertools import chain
+from django.db.models import Q
 import datetime
+
+
+from watson import search as watson
 # Create your views here.
+
+
+
+def search(request):
+
+	search_results = watson.filter(admission,request.POST['word'])
+	search_results2 = watson.filter(placement,request.POST['word'])
+
+
+	all1 = list(sorted(chain(search_results,search_results2),key=attrgetter("updated","timestamp"),reverse = True))
+
+
+
+	paginator = Paginator(all1, 10)
+	page = request.GET.get('page')
+	try:
+		questions = paginator.page(page)
+	except PageNotAnInteger:
+	# If page is not an integer, deliver first page.
+		questions = paginator.page(1)
+	except EmptyPage:
+	# If page is out of range (e.g. 9999), deliver last page of results.
+		questions = paginator.page(paginator.num_pages)
+
+
+	count = len(all1)
+	
+
+		
+	context = {
+			'all' : questions,
+			'count' : count,
+
+		}
+	return render(request,"search.html",context)
+
 
 def home(request):
 	query_list = admission.objects.all().order_by("-updated","-timestamp")
 	query_list2 = placement.objects.all().order_by("-updated","-timestamp")
-	c = query_list.count()
+
+
+	latest = list(sorted(chain(query_list,query_list2),key=attrgetter("updated","timestamp"),reverse = True))
+	all1 = list(sorted(chain(query_list,query_list2),key=attrgetter("updated","timestamp"),reverse = True))
+
+
+	c = len(latest)
 	# count = admission_Answer.objects.count
-	paginator = Paginator(query_list, 5 )
+	paginator = Paginator(query_list, 10 )
 	page = request.GET.get('page')
 	try:
 		queryset = paginator.page(page)
@@ -29,7 +77,7 @@ def home(request):
 
 
 
-	paginator = Paginator(query_list2, 5 )
+	paginator = Paginator(query_list2, 10 )
 	page = request.GET.get('page')
 	try:
 		queryset2 = paginator.page(page)
@@ -39,12 +87,28 @@ def home(request):
 	except EmptyPage:
 	    #If page is out of range (e.g. 9999), deliver last page of results.
 	    queryset2 = paginator.page(paginator.num_pages)
+
+
+	
+	paginator = Paginator(latest, 15 )
+	page = request.GET.get('page')
+	try:
+		latest1 = paginator.page(page)
+	except PageNotAnInteger:
+	    # If page is not an integer, deliver first page.
+	    latest1 = paginator.page(1)
+	except EmptyPage:
+	    #If page is out of range (e.g. 9999), deliver last page of results.
+	    latest1 = paginator.page(paginator.num_pages)
+
 	        
 	template = loader.get_template('home.html')
 	context = RequestContext(request, {
 		'query':queryset,
 		'query2' : queryset,
 		'queryplc' :queryset2 ,
+		'latest': latest1,
+		'all' : all1,
 		"count":c,
 		})
 	return HttpResponse(template.render(context))
@@ -52,8 +116,76 @@ def home(request):
 def tag(request,tag = None):
 	word = tag
 	query_list = admission.objects.filter(tags__slug__contains=word).order_by("-updated","-timestamp")
-	query_list2 = admission.objects.all().order_by("-updated","-timestamp")
-	paginator = Paginator(query_list, 5 )
+	query_listplc = placement.objects.filter(tags__slug__contains=word).order_by("-updated","-timestamp")
+
+	latest = list(sorted(chain(query_list,query_listplc),key=attrgetter("updated","timestamp"),reverse = True))
+
+
+
+	query_adm = admission.objects.all().order_by("-updated","-timestamp")
+	query_plc = placement.objects.all().order_by("-updated","-timestamp")
+
+	all1 = list(sorted(chain(query_adm,query_plc),key=attrgetter("updated","timestamp"),reverse = True))
+
+	paginator = Paginator(query_list, 10 )
+	page = request.GET.get('page')
+	try:
+		queryset = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		queryset = paginator.page(1)
+	except EmptyPage:
+		#If page is out of range (e.g. 9999), deliver last page of results.
+		queryset = paginator.page(paginator.num_pages)
+
+	paginator = Paginator(query_listplc, 10 )
+	page = request.GET.get('page')
+	try:
+		queryset2 = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		queryset2 = paginator.page(1)
+	except EmptyPage:
+		#If page is out of range (e.g. 9999), deliver last page of results.
+		queryset2 = paginator.page(paginator.num_pages)    
+
+##########33 latest tags
+
+	paginator = Paginator(latest, 15 )
+	page = request.GET.get('page')
+	try:
+		latest1 = paginator.page(page)
+	except PageNotAnInteger:
+	    # If page is not an integer, deliver first page.
+	    latest1 = paginator.page(1)
+	except EmptyPage:
+	    #If page is out of range (e.g. 9999), deliver last page of results.
+	    latest1 = paginator.page(paginator.num_pages)
+
+	template = loader.get_template('home.html')
+	context = RequestContext(request, {
+
+
+		'query':queryset,
+		
+		'queryplc': queryset2,
+		'latest' : latest1,
+		'all' : all1,
+		
+		})
+	return HttpResponse(template.render(context))
+
+
+
+
+
+def latestquerylist(request):
+	query_adm = admission.objects.all().order_by("-updated","-timestamp")
+	query_plc = placement.objects.all().order_by("-updated","-timestamp")
+
+	all1 = list(sorted(chain(query_adm,query_plc),key=attrgetter("updated","timestamp"),reverse = True))	
+
+	paginator = Paginator(all1, 30 )
 	page = request.GET.get('page')
 	try:
 		queryset = paginator.page(page)
@@ -63,19 +195,11 @@ def tag(request,tag = None):
 	except EmptyPage:
 	    #If page is out of range (e.g. 9999), deliver last page of results.
 	    queryset = paginator.page(paginator.num_pages)
-	template = loader.get_template('home.html')
-	context = RequestContext(request, {
-		'query':queryset,
-		'query2' : query_list2,
-		
-		})
-	return HttpResponse(template.render(context))
-
-
-
-
-
-
+	context = {
+	
+	"query":queryset,
+	}
+ 	return render(request,"admquerylist.html",context)
 
 		
 
@@ -103,6 +227,8 @@ def admquery(request):
 		instance.save()
 		tagt = tags_text.split(',')
 		for tag in tagt:
+			tag=tag.rstrip()
+			tag=tag.lstrip()
 			try:
 				t = Tag.objects.get(slug=tag)
 				instance.tags.add(t)
@@ -253,6 +379,8 @@ def admqueryupdate(request,id=None):
 		instance.save()
 		tagt = tags_text.split(',')
 		for tag in tagt:
+			tag=tag.rstrip()
+			tag=tag.lstrip()
 			try:
 				t = Tag.objects.get(slug=tag)
 				instance.tags.add(t)
@@ -422,6 +550,8 @@ def plcmntquery(request):
 		instance.save()
 		tagt = tags_text.split(',')
 		for tag in tagt:
+			tag=tag.rstrip()
+			tag=tag.lstrip()
 			try:
 				t = Tag.objects.get(slug=tag)
 				instance.tags.add(t)
@@ -567,6 +697,8 @@ def plcmntqueryupdate(request,id=None):
 		instance.save()
 		tagt = tags_text.split(',')
 		for tag in tagt:
+			tag=tag.rstrip()
+			tag=tag.lstrip()
 			try:
 				t = Tag.objects.get(slug=tag)
 				instance.tags.add(t)

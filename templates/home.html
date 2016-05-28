@@ -27,8 +27,7 @@
   
 }
 
-
-    </style>
+</style>
 
 {% endblock %}
 
@@ -75,6 +74,11 @@
 <hr>
   {% endfor %}
 
+  {% else %}
+
+  <div class="alert alert-warning" role="alert">No Questions are available!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
 {% endif %}
 
 <div class="pagination">
@@ -106,7 +110,7 @@
   {% for q in queryplc %}
   <div class="row">
   <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques">{{ q.views }}</div>Views</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.views }}3</div>Views</small></div>
   <p>
      <a class="ques" href="{% url 'plcmntquerydetail' id=q.id %}">{{ q.title }}</a>
     <br/>
@@ -118,6 +122,10 @@
 </div>
 <hr>
   {% endfor %}
+  {% else %}
+
+<div class="alert alert-warning" role="alert">No Questions are available!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
 
 {% endif %}
 
@@ -178,11 +186,46 @@
 
 
   <div role="tabpanel" class="tab-pane" id="lat">
-<div class="row">
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers6</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Views6</small></div>
-  </div>
+{% if latest %}
+  {% for q in latest %}
+  <div class="row">
+  <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.answers.count }}</div>Answers </small></div>
+
+  <div class="col-xs-1 ans" ><small><div class="ques" >3</div>Views</small></div>
+  <p>
+     <a class="ques" href="{% url 'admquerydetail' id=q.id %}">{{ q.title }}</a>
+    <br/>
+    <!-- {% for tag in question.tags.all %}
+    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
+    {% endfor %} -->
+    <small> {{ q.timestamp|timesince}} ago</small>
+  </p>
+</div>
 <hr>
+  {% endfor %}
+
+  {% else %}
+
+<div class="alert alert-warning" role="alert">No Questions are available!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
+{% endif %}
+<div class="pagination">
+    <span class="step-links">
+        {% if latest.has_previous %}
+           <a href="?page={{ latest.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ latest.number }} of {{ latest.paginator.num_pages }}.
+        </span>
+
+        {% if latest.has_next %} 
+            <a href="?page={{ latest.next_page_number }}">next</a> 
+        {% endif %}
+        | <a href="{% url 'latestquerylist' %}">see all </a>
+    </span>
+</div>
   </div>
 
 
@@ -243,7 +286,7 @@
       <h3 class="panel-title"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Recent Tags</h3>
     </div>
     <div class="panel-body">
-      {% for q in query2 %}
+      {% for q in all %}
       {% for tagt in q.tags.all %}
       <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>
       {% endfor %}
@@ -256,5 +299,14 @@
 </div>
 
 </div></div>
+
+
+
+
+
+
+
+
+
 
 {% endblock %}

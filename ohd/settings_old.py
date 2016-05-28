@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'answers',
 
     #third party apps
+    'django_responsive',
     'pagedown',
     'django_markdown',
     
@@ -73,6 +74,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'responsive.middleware.DeviceInfoMiddleware',
 ]
 
 ROOT_URLCONF = 'ohd.urls'
@@ -88,6 +90,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'responsive.context_processors.device_info',
                 
 
                 
@@ -143,6 +146,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+DEFAULT_BREAKPOINTS = {
+    'phone': 480,
+    'tablet': 767,
+    'desktop': None,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -176,7 +184,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

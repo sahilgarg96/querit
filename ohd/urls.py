@@ -28,6 +28,9 @@ urlpatterns = [
     url(r'^$', 'posts.views.home',name='home'),
     url(r'^about/', 'posts.views.about',name='about'),
     url(r'^query/', 'posts.views.querytype',name='query'),
+    url(r'^search/$', 'posts.views.search', name='search'),
+    url(r'^latest/queries', 'posts.views.latestquerylist',name='latestquerylist'),
+
 
     
     url(r'^ask_query/admissions/', 'posts.views.admquery',name='admqueryask'),
@@ -47,6 +50,7 @@ urlpatterns = [
 
     url(r'^accounts/',include('allauth.urls')),
     url('^markdown/', include( 'django_markdown.urls')),
+   
 
 
  

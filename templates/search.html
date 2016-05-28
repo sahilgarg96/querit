@@ -1,13 +1,15 @@
 {% extends "base1.html" %}
 {% load staticfiles %}
 
-{% block title %}Placements |Thapar University{%  endblock %}
+{% block title %}OHD |Thapar University{%  endblock %}
 
 {% block head %}
     <meta charset="UTF-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
 
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
-        <style>
+    <style>
 
 .ques {
   font-family: 'Roboto', sans-serif;
@@ -24,20 +26,27 @@
 
   
 }
+
 </style>
 
-    
 {% endblock %}
 
 
 {% block body %}
+<div class="row">
 <div class="col-xs-7 col-xs-offset-1">
-{% for q in query %}
+{% if all %}
+
+<h3 class="lead"> {{ count}} Results Found ! </h3>
+<hr>
+
+
+{% for q in all %}
   <div class="row">
-  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques">3</div>Views</small></div>
+  <div class="col-sm-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
+  <div class="col-sm-1 ans"><small><div class="ques">3</div>Views</small></div>
   <p>
-     <a class="ques" href="{% url 'plcmntquerydetail' id=q.id %}">{{ q.title }}</a>
+     <a class="ques" href="{{ q.get_absolute_url }}">{{ q.title }}</a>
     <br/>
     <!-- {% for tag in question.tags.all %}
     <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
@@ -49,30 +58,36 @@
 
 {% endfor %}
 <div class='row'>
-<div class='col-xs-4 col-xs-offset-4'>
+<div class='col-md-4 col-md-offset-4'>
 <div class="pagination">
     <span class="step-links">
-        {% if query.has_previous %}
-            <a href="?page={{ query.previous_page_number }}">previous</a>
+        {% if all.has_previous %}
+            <a href="?page={{ all.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ query.number }} of {{ query.paginator.num_pages }}.
+            Page {{ all.number }} of {{ all.paginator.num_pages }}.
         </span>
 
-        {% if query.has_next %}
-            <a href="?page={{ query.next_page_number }}">next</a>
+        {% if all.has_next %}
+            <a href="?page={{ all.next_page_number }}">next</a>
         {% endif %}
     </span>
 </div>
 </div></div>
 </div>
+{% else %}
+
+<div class="alert alert-warning" role="alert">No Questions are available!</div>
+</div>
+{% endif %}
+
 
 
 <div class="row">
 
-
 <div class="col-xs-2 col-xs-offset-1">
+
 
 
 
@@ -80,7 +95,7 @@
 
 
 <div class="col-xs-2 col-xs-offset-1">
-<div class="cont" style="background-color: #FFFACD; height: 400px; text-align: center;border-style: solid; border-color: #f1a552;">
+<div class="cont" style="background-color: #FFFACD; height: 400px; text-align: center; border-style: solid; border-color: #f1a552;">
 <br>
 <div class="cont" style="background-color: #FFFACD; height: 350px; margin-left: 5%; margin-right: 5%; text-align: center;">
 
@@ -117,7 +132,7 @@
 
 
 </div>
-
+</div>
 </div>
 
 </div></div>

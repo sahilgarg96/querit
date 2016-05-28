@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from answers.models import *
 
 
+from watson import search as watson
 
 
 # Create your models here.
@@ -20,7 +21,7 @@ class Tag(models.Model):
     class Meta:
         ordering = ('slug',)
 
-
+  
 class admission(models.Model):
 	
 
@@ -40,11 +41,13 @@ class admission(models.Model):
     timestamp=models.DateTimeField(auto_now_add=True,auto_now=False)
     updated=models.DateTimeField(auto_now_add=False,auto_now=True)
 
+    
+
     def __unicode__(self):
         return '%s --------------------- %s' %(self.title,self.user)
 
     
-        
+     
            
 
     def get_absolute_url(self):
