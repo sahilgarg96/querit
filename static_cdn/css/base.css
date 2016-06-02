@@ -22,12 +22,14 @@
 
 .topbar {
   width:100%;
-  height:10px;
+  height:15px;
   position: absolute;
   z-index:1000;
 
   background: #ABC5D9;
 }
+
+
 .h{
   background: #ABC5D9;
 }

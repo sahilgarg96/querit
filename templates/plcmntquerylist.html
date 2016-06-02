@@ -24,6 +24,12 @@
 
   
 }
+
+tag {
+  background-color:#E0E0E0;
+  color:#500000;
+}
+
 </style>
 
     
@@ -35,13 +41,16 @@
 {% for q in query %}
   <div class="row">
   <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques">3</div>Views</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.hits }}</div>Views</small></div>
   <p>
      <a class="ques" href="{% url 'plcmntquerydetail' id=q.id %}">{{ q.title }}</a>
     <br/>
     <!-- {% for tag in question.tags.all %}
     <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
     {% endfor %} -->
+     Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
     <small> {{ q.timestamp|timesince}} ago</small>
   </p>
 </div>
@@ -89,11 +98,11 @@
 
 <small>{{ user.username }} </small>
 <hr>
-<a href="#"> <span class="glyphicon glyphicon-user"></span>&nbsp;My Profile </a> |&nbsp; 
+<a href="{% url 'ownprofile' %}"> <span class="glyphicon glyphicon-user"></span>&nbsp;My Profile </a> |&nbsp; 
               <a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a> 
               <hr>
 
-              <a href="#" ><span class="glyphicon glyphicon-th-list"></span> My Questions </a>
+              <a href="{% url 'myques' %}" ><span class="glyphicon glyphicon-th-list"></span> My Questions </a>
               <hr>
                 {% else %}
                 

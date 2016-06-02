@@ -1,6 +1,7 @@
 {% extends "base1.html" %}
 {% load staticfiles %}
 
+
 {% block title %}OHD |Thapar University{%  endblock %}
 
 {% block head %}
@@ -25,6 +26,10 @@
   vertical-align: middle;
 
   
+}
+tag {
+  background-color:#E0E0E0;
+  color:#500000;
 }
 
 </style>
@@ -52,152 +57,22 @@
 
 
 <div class="tab-content">
-
-
-<div  role="tabpanel" class="tab-pane active" id="adm">
-
-{% if query %}
-  {% for q in query %}
-  <div class="row">
-  <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.answers.count }}</div>Answers </small></div>
-
-  <div class="col-xs-1 ans" ><small><div class="ques" >3</div>Views</small></div>
-  <p>
-     <a class="ques" href="{% url 'admquerydetail' id=q.id %}">{{ q.title }}</a>
-    <br/>
-    <!-- {% for tag in question.tags.all %}
-    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
-    {% endfor %} -->
-    <small> {{ q.timestamp|timesince}} ago</small>
-  </p>
-</div>
-<hr>
-  {% endfor %}
-
-  {% else %}
-
-  <div class="alert alert-warning" role="alert">No Questions are available!</div>
-<h3><small><u>Be the first to ask.</u> </small></h3>
-
-{% endif %}
-
-<div class="pagination">
-    <span class="step-links">
-        {% if query.has_previous %}
-           <a href="?page={{ query.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ query.number }} of {{ query.paginator.num_pages }}.
-        </span>
-
-        {% if query.has_next %} 
-            <a href="?page={{ query.next_page_number }}">next</a> 
-        {% endif %}
-        | <a href="{% url 'admquerylist' %}">see all </a>
-    </span>
-</div>
-
-
-</div>
-
-
-
-
-<div role="tabpanel" class="tab-pane" id="plac">
-
-{% if queryplc %}
-  {% for q in queryplc %}
-  <div class="row">
-  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques">{{ q.views }}3</div>Views</small></div>
-  <p>
-     <a class="ques" href="{% url 'plcmntquerydetail' id=q.id %}">{{ q.title }}</a>
-    <br/>
-    <!-- {% for tag in question.tags.all %}
-    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
-    {% endfor %} -->
-    <small> {{ q.timestamp|timesince}} ago</small>
-  </p>
-</div>
-<hr>
-  {% endfor %}
-  {% else %}
-
-<div class="alert alert-warning" role="alert">No Questions are available!</div>
-<h3><small><u>Be the first to ask.</u> </small></h3>
-
-{% endif %}
-
-<div class="pagination">
-    <span class="step-links">
-        {% if queryplc.has_previous %}
-           <a href="?page={{ queryplc.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ queryplc.number }} of {{ queryplc.paginator.num_pages }}.
-        </span>
-
-        {% if queryplc.has_next %} 
-            <a href="?page={{ queryplc.next_page_number }}">next</a> 
-        {% endif %}
-        | <a href="{% url 'plcmntquerylist' %}">see all </a>
-    </span>
-</div>
-
-
-  </div>
-
-
-<div role="tabpanel" class="tab-pane" id="soc">
-<div class="row">
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers2</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Views2</small></div>
-  </div>
-<hr>
-  </div>
-
-  <div role="tabpanel" class="tab-pane" id="host">
-<div class="row">
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers3</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Views3</small></div>
-  </div>
-<hr>
-  </div>
-
-
-  <div role="tabpanel" class="tab-pane" id="acad">
-<div class="row">
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers4</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Views4</small></div>
-  </div>
-<hr>
-  </div>
-
-
-  <div role="tabpanel" class="tab-pane" id="other">
-<div class="row">
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Answers5</small></div>
-  <div class="col-xs-1 ans"><small><div class="ques"></div>Views5</small></div>
-  </div>
-<hr>
-  </div>
-
-
-  <div role="tabpanel" class="tab-pane" id="lat">
+<div role="tabpanel" class="tab-pane" id="lat">
 {% if latest %}
   {% for q in latest %}
   <div class="row">
   <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.answers.count }}</div>Answers </small></div>
 
-  <div class="col-xs-1 ans" ><small><div class="ques" >3</div>Views</small></div>
+  <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.hits }}</div>Views</small></div>
   <p>
-     <a class="ques" href="{% url 'admquerydetail' id=q.id %}">{{ q.title }}</a>
+     <a class="ques" href="{{ q.get_absolute_url }}">{{ q.title }}</a>
     <br/>
     <!-- {% for tag in question.tags.all %}
     <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
     {% endfor %} -->
+     Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
     <small> {{ q.timestamp|timesince}} ago</small>
   </p>
 </div>
@@ -230,6 +105,311 @@
 
 
 
+<div  role="tabpanel" class="tab-pane active" id="adm">
+
+{% if query %}
+  {% for q in query %}
+  <div class="row">
+  <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.answers.count }}</div>Answers </small></div>
+
+  <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.hits }}</div>Views</small></div>
+  <p>
+     <a class="ques" href="{% url 'admquerydetail' id=q.id %}">{{ q.title }}</a>
+    <br/>
+    <!-- {% for tag in question.tags.all %}
+    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
+    {% endfor %} -->
+    
+      Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
+      <small> {{ q.timestamp|timesince}} ago</small>
+  </p>
+</div>
+<hr>
+  {% endfor %}
+
+  {% else %}
+
+  <div class="alert alert-warning" role="alert">No Questions are available in admissions section!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if query.has_previous %}
+           <a href="?page={{ query.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ query.number }} of {{ query.paginator.num_pages }}.
+        </span>
+
+        {% if query.has_next %} 
+            <a href="?page={{ query.next_page_number }}">next</a> 
+        {% endif %}
+        | <a href="{% url 'admquerylist' %}">see all </a>
+    </span>
+</div>
+
+
+</div>
+
+
+
+
+<div role="tabpanel" class="tab-pane" id="plac">
+
+{% if queryplc %}
+  {% for q in queryplc %}
+  
+  <div class="row">
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.hits }}</div>Views</small></div>
+  <p>
+     <a class="ques" href="{% url 'plcmntquerydetail' id=q.id %}">{{ q.title }}</a>
+    <br/>
+    <!-- {% for tag in question.tags.all %}
+    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
+    {% endfor %} -->
+     Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
+    <small> {{ q.timestamp|timesince}} ago</small>
+  </p>
+</div>
+<hr>
+  {% endfor %}
+  {% else %}
+
+<div class="alert alert-warning" role="alert">No Questions are available in Placements section!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if queryplc.has_previous %}
+           <a href="?page={{ queryplc.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ queryplc.number }} of {{ queryplc.paginator.num_pages }}.
+        </span>
+
+        {% if queryplc.has_next %} 
+            <a href="?page={{ queryplc.next_page_number }}">next</a> 
+        {% endif %}
+        | <a href="{% url 'plcmntquerylist' %}">see all </a>
+    </span>
+</div>
+
+
+  </div>
+
+
+<div role="tabpanel" class="tab-pane" id="soc">
+{% if querysoc %}
+  {% for q in querysoc %}
+  
+  <div class="row">
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.hits }}</div>Views</small></div>
+  <p>
+     <a class="ques" href="{% url 'socquerydetail' id=q.id %}">{{ q.title }}</a>
+    <br/>
+    <!-- {% for tag in question.tags.all %}
+    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
+    {% endfor %} -->
+     Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
+    <small> {{ q.timestamp|timesince}} ago</small>
+  </p>
+</div>
+<hr>
+  {% endfor %}
+  {% else %}
+
+<div class="alert alert-warning" role="alert">No Questions are available in Societies section!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if querysoc.has_previous %}
+           <a href="?page={{ querysoc.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ querysoc.number }} of {{ querysoc.paginator.num_pages }}.
+        </span>
+
+        {% if querysoc.has_next %} 
+            <a href="?page={{ querysoc.next_page_number }}">next</a> 
+        {% endif %}
+        | <a href="{% url 'socquerylist' %}">see all </a>
+    </span>
+</div>
+
+
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="host">
+{% if queryhostel %}
+  {% for q in queryhostel %}
+  <div class="row">
+  <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.answers.count }}</div>Answers </small></div>
+
+  <div class="col-xs-1 ans" ><small><div class="ques" >{{ q.hits }}</div>Views</small></div>
+  <p>
+     <a class="ques" href="{% url 'hostelquerydetail' id=q.id %}">{{ q.title }}</a>
+    <br/>
+    <!-- {% for tag in question.tags.all %}
+    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
+    {% endfor %} -->
+    
+      Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
+      <small> {{ q.timestamp|timesince}} ago</small>
+  </p>
+</div>
+<hr>
+  {% endfor %}
+
+  {% else %}
+
+  <div class="alert alert-warning" role="alert">No Questions are available in Hostels section!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if queryhostel.has_previous %}
+           <a href="?page={{ queryhostel.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ queryhostel.number }} of {{ queryhostel.paginator.num_pages }}.
+        </span>
+
+        {% if queryhostel.has_next %} 
+            <a href="?page={{ queryhostel.next_page_number }}">next</a> 
+        {% endif %}
+        | <a href="{% url 'hostelquerylist' %}">see all </a>
+    </span>
+</div>
+
+
+</div>
+
+
+  <div role="tabpanel" class="tab-pane" id="acad">
+{% if queryacad %}
+  {% for q in queryacad %}
+  
+  <div class="row">
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.hits }}</div>Views</small></div>
+  <p>
+     <a class="ques" href="{% url 'acadquerydetail' id=q.id %}">{{ q.title }}</a>
+    <br/>
+    <!-- {% for tag in question.tags.all %}
+    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
+    {% endfor %} -->
+     Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
+    <small> {{ q.timestamp|timesince}} ago</small>
+  </p>
+</div>
+<hr>
+  {% endfor %}
+  {% else %}
+
+<div class="alert alert-warning" role="alert">No Questions are available in Academics section!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if queryacad.has_previous %}
+           <a href="?page={{ queryacad.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ queryacad.number }} of {{ queryacad.paginator.num_pages }}.
+        </span>
+
+        {% if queryacad.has_next %} 
+            <a href="?page={{ queryacad.next_page_number }}">next</a> 
+        {% endif %}
+        | <a href="{% url 'acadquerylist' %}">see all </a>
+    </span>
+</div>
+
+
+  </div>
+
+
+  <div role="tabpanel" class="tab-pane" id="other">
+{% if queryother %}
+  {% for q in queryother %}
+  
+  <div class="row">
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.answers.count }}</div>Answers</small></div>
+  <div class="col-xs-1 ans"><small><div class="ques">{{ q.hits }}</div>Views</small></div>
+  <p>
+     <a class="ques" href="{% url 'otherquerydetail' id=q.id %}">{{ q.title }}</a>
+    <br/>
+    <!-- {% for tag in question.tags.all %}
+    <a href="/tag/{{ tag.slug|slugify }}/"><tag>{{ tag.slug }}</tag></a>
+    {% endfor %} -->
+     Tags :{% for tagt in q.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
+    <small> {{ q.timestamp|timesince}} ago</small>
+  </p>
+</div>
+<hr>
+  {% endfor %}
+  {% else %}
+
+<div class="alert alert-warning" role="alert">No Questions are available in Others section!</div>
+<h3><small><u>Be the first to ask.</u> </small></h3>
+
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if queryother.has_previous %}
+           <a href="?page={{ queryother.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ queryother.number }} of {{ queryother.paginator.num_pages }}.
+        </span>
+
+        {% if queryother.has_next %} 
+            <a href="?page={{ queryother.next_page_number }}">next</a> 
+        {% endif %}
+        | <a href="{% url 'otherquerylist' %}">see all </a>
+    </span>
+</div>
+
+
+  </div>
+
+
+  
+
+
+
 </div>
 </div>
 
@@ -254,11 +434,11 @@
 
 <small>{{ user.username }} </small>
 <hr>
-<a href="#"> <span class="glyphicon glyphicon-user"></span>&nbsp;My Profile </a> |&nbsp; 
+<a href="{% url 'ownprofile' %}"> <span class="glyphicon glyphicon-user"></span>&nbsp;My Profile </a> |&nbsp; 
               <a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a> 
               <hr>
 
-              <a href="#" ><span class="glyphicon glyphicon-th-list"></span> My Questions </a>
+              <a href="{% url 'myques' %}" ><span class="glyphicon glyphicon-th-list"></span> My Questions </a>
               <hr>
                 {% else %}
                 
@@ -286,7 +466,7 @@
       <h3 class="panel-title"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Recent Tags</h3>
     </div>
     <div class="panel-body">
-      {% for q in all %}
+      {% for q in all|slice:":30" %}
       {% for tagt in q.tags.all %}
       <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>
       {% endfor %}

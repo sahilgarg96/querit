@@ -47,7 +47,7 @@ h1
     </div>
     
      <div class="col-xs-2 col-xs-offset-4">
-    <a href="#"><img src="{% static 'img/hostels2.png' %}" class="img-responsive center-block"><p class="text-center">H O S T E L S </p><div class="tool-tip slideIn right">Hostels</div></a>
+    <a href="{% url 'hostelqueryask' %}"><img src="{% static 'img/hostels2.png' %}" class="img-responsive center-block"><p class="text-center">H O S T E L S </p><div class="tool-tip slideIn right">Hostels</div></a>
     </div>
 
 </div>
@@ -55,18 +55,18 @@ h1
 <br><br><br><br>
 <div class="row">
     <div class="col-xs-2 col-xs-offset-2">
-    <a href="#"><img src="{% static 'img/society.png' %}" class="img-responsive center-block"><p class="text-center"> S O C I E T I E S </p><div class="tool-tip slideIn left">Societies</div></a>
+    <a href="{% url 'socqueryask' %}"><img src="{% static 'img/society.png' %}" class="img-responsive center-block"><p class="text-center"> S O C I E T I E S </p><div class="tool-tip slideIn left">Societies</div></a>
     </div>
 
      <div class="col-xs-2 col-xs-offset-4">
-    <a href="#"><img src="{% static 'img/acad.png' %}" class="img-responsive center-block"><p class="text-center"> A C A D E M I C S </p><div class="tool-tip slideIn right">Academics</div></a>
+    <a href="{% url 'acadqueryask' %}"><img src="{% static 'img/acad.png' %}" class="img-responsive center-block"><p class="text-center"> A C A D E M I C S </p><div class="tool-tip slideIn right">Academics</div></a>
     </div>
     
 </div>
 
 <div class="row">
     <div class="col-xs-2 col-xs-offset-5">
-    <a href="#"><img src="{% static 'img/other.png' %}" class="img-responsive center-block"><p class="text-center"> O T H E R S </p><div class="tool-tip slideIn bottom">Others</div></a>
+    <a href="{% url 'otherqueryask' %}"><img src="{% static 'img/other.png' %}" class="img-responsive center-block"><p class="text-center"> O T H E R S </p><div class="tool-tip slideIn bottom">Others</div></a>
     </div>
     
 </div>

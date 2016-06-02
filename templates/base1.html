@@ -12,6 +12,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href='{% static "css/2.css" %}' rel="stylesheet">
     <link href="{%  static 'css/base.css' %}" rel="stylesheet">
+    
     <style type="text/css">
 
 html {
@@ -28,9 +29,12 @@ body {
   width: 100%;
 
   height: 60px;
-  background-color: rgba(40, 45, 199, 0);
+
+    background: #ABC5D9;
+
+/*  background-color: rgba(40, 45, 199, 0);
     background: -webkit-linear-gradient(top, rgba(205, 212, 250, 1) 0%, rgba(40, 45, 199, 0) 100%);
-    background: linear-gradient(to bottom, rgba(205, 212, 250, 1) 0%, rgba(40, 45, 199, 0) 100%);
+    background: linear-gradient(to bottom, rgba(205, 212, 250, 1) 0%, rgba(40, 45, 199, 0) 100%);*/
 }
 
 .copyright-img{padding:20px 0;}
@@ -223,8 +227,8 @@ $(function () {
     <footer class="footer">
       <div class="container">
         <div class="row copyright-img">
-        <div class="col-lg-4 col-sm-4"> Total Control True Independence </div>
-        <div class="col-lg-8 col-sm-8 text-right" id="footertext"> Copyright © 2014 JoindesignTrick Inc </div>
+        <div class="col-lg-4 col-sm-4"> <a href="{% url 'about' %}" style="font-weight:normal;font-variant:small-caps;color:#7E7E8C;letter-spacing:1pt;word-spacing:2pt;font-size:20px;text-align:left;font-family:palatino linotype, palatino, serif;line-height:1;"> | DEVELOPERS | </a> </div>
+        <div class="col-lg-8 col-sm-8 text-right" id="footertext"> <a href="{% url 'contact' %}" style="font-weight:normal;font-variant:small-caps;color:#7E7E8C;letter-spacing:1pt;word-spacing:2pt;font-size:20px;text-align:left;font-family:palatino linotype, palatino, serif;line-height:1;"> | CONTACT US | </a> </div>
       </div>
       </div>
     </footer>

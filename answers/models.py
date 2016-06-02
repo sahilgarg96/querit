@@ -78,6 +78,7 @@ class placement_Answer(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     parent=models.ForeignKey('self',null=True,blank=True)
+    votes = models.IntegerField(default=0)
 
     pub_date = models.DateTimeField('date published')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True)
@@ -103,4 +104,203 @@ class placement_Answer(models.Model):
     		return True    
 
     	
-        
+class Voterplc(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    answer = models.ForeignKey(placement_Answer)
+
+    def __unicode__(self):
+        return ' %s ------ voted by  %s' %(self.answer,self.user)       
+
+
+
+
+
+
+class hostel_Answer(models.Model):
+    
+    answer_text = models.TextField()
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    parent=models.ForeignKey('self',null=True,blank=True)
+
+    votes = models.IntegerField(default=0)
+
+    pub_date = models.DateTimeField('date published')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True)
+
+    objects = AnswerManager()
+
+    class Meta:
+        ordering = ['-pub_date']
+
+    def __unicode__(self):
+        return ' %s ------ answered by  %s' %(self.answer_text,self.user)
+
+    def children(self):  #replies
+        return hostel_Answer.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+
+            return False
+
+        else:
+            return True    
+
+class Voterhostel(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    answer = models.ForeignKey(hostel_Answer)
+
+    def __unicode__(self):
+        return ' %s ------ voted by  %s' %(self.answer,self.user)
+
+
+
+
+
+
+
+class acad_Answer(models.Model):
+    
+    answer_text = models.TextField()
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    parent=models.ForeignKey('self',null=True,blank=True)
+
+    votes = models.IntegerField(default=0)
+
+    pub_date = models.DateTimeField('date published')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True)
+
+    objects = AnswerManager()
+
+    class Meta:
+        ordering = ['-pub_date']
+
+    def __unicode__(self):
+        return ' %s ------ answered by  %s' %(self.answer_text,self.user)
+
+    def children(self):  #replies
+        return acad_Answer.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+
+            return False
+
+        else:
+            return True    
+
+class Voteracad(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    answer = models.ForeignKey(acad_Answer)
+
+    def __unicode__(self):
+        return ' %s ------ voted by  %s' %(self.answer,self.user)
+
+
+
+
+
+
+
+
+
+
+class other_Answer(models.Model):
+    
+    answer_text = models.TextField()
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    parent=models.ForeignKey('self',null=True,blank=True)
+
+    votes = models.IntegerField(default=0)
+
+    pub_date = models.DateTimeField('date published')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True)
+
+    objects = AnswerManager()
+
+    class Meta:
+        ordering = ['-pub_date']
+
+    def __unicode__(self):
+        return ' %s ------ answered by  %s' %(self.answer_text,self.user)
+
+    def children(self):  #replies
+        return other_Answer.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+
+            return False
+
+        else:
+            return True    
+
+class Voterother(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    answer = models.ForeignKey(other_Answer)
+
+    def __unicode__(self):
+        return ' %s ------ voted by  %s' %(self.answer,self.user)       
+
+
+
+
+
+
+
+class soc_Answer(models.Model):
+    
+    answer_text = models.TextField()
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    parent=models.ForeignKey('self',null=True,blank=True)
+
+    votes = models.IntegerField(default=0)
+
+    pub_date = models.DateTimeField('date published')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True)
+
+    objects = AnswerManager()
+
+    class Meta:
+        ordering = ['-pub_date']
+
+    def __unicode__(self):
+        return ' %s ------ answered by  %s' %(self.answer_text,self.user)
+
+    def children(self):  #replies
+        return soc_Answer.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+
+            return False
+
+        else:
+            return True    
+
+class Votersoc(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    answer = models.ForeignKey(soc_Answer)
+
+    def __unicode__(self):
+        return ' %s ------ voted by  %s' %(self.answer,self.user)

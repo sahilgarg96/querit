@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load markdown_deux_tags %}
 {% load crispy_forms_tags %}
+
 {% block title %}Placements |Thapar University{%  endblock %}
 
 {% block head %}
@@ -24,7 +25,10 @@ font-size: 30px;
   min-width: 100%   !important;
   
 }
-
+tag {
+  background-color:#E0E0E0;
+  color:#500000;
+}
 
 
 
@@ -39,6 +43,13 @@ font-size: 30px;
 
 {% block body %}
 
+{% if message %}
+<div class="alert alert-danger" role="alert">{{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+{% endif %}
 
 
 
@@ -46,12 +57,17 @@ font-size: 30px;
 <div class="col-xs-10 col-xs-offset-1">
    <h3>{{instance.title}} </h3>
   <strong>( {{instance.Program }} ) </strong>
+  <br>
+        Tags :{% for tagt in instance.tags.all %}
+      <a href="{% url 'tagt' tag=tagt.slug %}"><tag>{{ tagt.slug }}</tag></a>,
+      {% endfor %}
    <hr>
+
    </div>
    </div>
    <div class="row">
 <div class="col-xs-6 col-xs-offset-1">
-  <small class="pull-right">Posted by {{ instance.user}}</small>
+  <small class="pull-right">Posted by <a href="{% url 'profile' id=p %}">{{ instance.user}}</a></small>
   <br><br>
   {{ instance.content|markdown|linebreaks }}
   
@@ -92,10 +108,40 @@ font-size: 30px;
   <hr>
   {% for i in answers %}
    
+{% if '@thapar.edu' in i.user.email %}
+   <blockquote style="background-color:  #9fdf9f ;" >
 
-   <blockquote style="background-color: #fcfac9 ;" >
+{% elif i.user.is_staff %}
+
+   <blockquote style="background-color:  #9fdf9f ;" >
+
+   {% else %}
+
+  <blockquote style="background-color: #fcfac9 ;" >
+
+{% endif %}
+
   <p>{{ i.answer_text|markdown |linebreaks }}</p>
-  <footer>Posted by {{ i.user}} | {{ i.pub_date|timesince}} ago | {% if i.children.count > 0 %} {% if i.children.count <= 1 %} {{i.children.count}} comment |{% endif %} {% if i.children.count > 1 %} {{ i.children.count}} comments |{% endif %} {% endif %}   <a class="comment-reply-btn" href="#">Reply </a></footer>
+  <footer>Posted by {{ i.user}} | {{ i.pub_date|timesince}} ago | {% if i.children.count > 0 %} {% if i.children.count <= 1 %} {{i.children.count}} comment |{% endif %} {% if i.children.count > 1 %} {{ i.children.count}} comments |{% endif %} {% endif %}   <a class="comment-reply-btn" href="#">Reply </a>          <div class="pull-right"> 
+
+
+  {% if user.is_authenticated %}
+      
+        
+          
+          <a data-toggle="tooltip" data-placement="top" title="Vote Up this answer" href="/voteplc/{{ instance.id }}/{{ i.id }}/0/"><span class=" glyphicon glyphicon-triangle-top" aria-hidden="true"></span></a> 
+          
+
+<b>{{ i.votes }}</b>
+
+          <a  data-toggle="tooltip" data-placement="bottom" title="Vote Down this answer" href="/voteplc/{{ instance.id }}/{{ i.id }}/1/"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+
+
+      {% else %} 
+
+<p>{{ i.votes }} votes </p>
+
+      {% endif %}  </div></footer>
 
 <div class="answer-reply" style="display: none;">
     {% for reply in i.children %}
@@ -148,11 +194,11 @@ font-size: 14px;"> {% if instance.answers.count > 0 %} {% if instance.answers.co
 
 <small>{{ user.username }} </small>
 <hr>
-<a href="#"> <span class="glyphicon glyphicon-user"></span>&nbsp;My Profile <a> |&nbsp; 
+<a href="{% url 'ownprofile' %}"> <span class="glyphicon glyphicon-user"></span>&nbsp;My Profile <a> |&nbsp; 
               <a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a> 
               <hr>
 
-              <a href="#" ><span class="glyphicon glyphicon-th-list"></span> My Questions </a>
+              <a href="{% url 'myques' %}" ><span class="glyphicon glyphicon-th-list"></span> My Questions </a>
               <hr>
                 {% else %}
                 
