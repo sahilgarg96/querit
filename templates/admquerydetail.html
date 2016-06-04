@@ -111,7 +111,30 @@ tag {
   {% for i in answers %}
    
 {% if '@thapar.edu' in i.user.email %}
-   <blockquote style="background-color:  #9fdf9f ;" >
+      {% if '15@thapar.edu' in i.user.email %}
+      <blockquote style="background-color: #fcfac9 ;" >
+     
+      {% elif '14@thapar.edu' in i.user.email %}
+      <blockquote style="background-color: #fcfac9 ;" >
+
+      {% elif '16@thapar.edu' in i.user.email %}
+      <blockquote style="background-color: #fcfac9 ;" >
+
+      {% elif '17@thapar.edu' in i.user.email %}
+      <blockquote style="background-color: #fcfac9 ;" >
+
+      {% elif '18@thapar.edu' in i.user.email %}
+      <blockquote style="background-color: #fcfac9 ;" >
+
+      {% else %}
+      <blockquote style="background-color:  #9fdf9f ;" >
+
+      {% endif %}
+
+
+
+  
+
 
 {% elif i.user.is_staff %}
 
@@ -124,7 +147,7 @@ tag {
 {% endif %}
 
   <p>{{ i.answer_text|markdown |linebreaks }}</p>
-  <footer>Posted by {{ i.user}} | {{ i.pub_date|timesince}} ago | {% if i.children.count > 0 %} {% if i.children.count <= 1 %} {{i.children.count}} comment |{% endif %} {% if i.children.count > 1 %} {{ i.children.count}} comments |{% endif %} {% endif %}   <a class="comment-reply-btn" href="#">Reply </a>          <div class="pull-right"> 
+  <footer>Posted by {{ i.user}} | {{ i.pub_date|timesince}} ago | {% if i.children.count > 0 %} {% if i.children.count <= 1 %} <a class="comment-reply-btn" href="#">{{i.children.count}} comment </a>|{% endif %} {% if i.children.count > 1 %}<a class="comment-reply-btn" href="#"> {{ i.children.count}} comments</a> |{% endif %} {% endif %}   <a class="comment-reply-btn" href="#">Reply </a>          <div class="pull-right"> 
 
 
   {% if user.is_authenticated %}
