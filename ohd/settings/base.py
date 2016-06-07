@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8^du!g&@9!!_%f&p8ybxg^_0h2_#boue)@6nc0p19c%e$m(&jc'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -115,17 +115,7 @@ AUTHENTICATION_BACKENDS = (
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd6cpac5765b8jn',
-        'USER': 'zaaqwtxcrgpuwe',
-        'PASSWORD': 'FyiY8bvzukIski5aiknFTjnCl_',
-        'HOST': 'ec2-50-16-229-45.compute-1.amazonaws.com',
 
-        'PORT': '5432',
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
